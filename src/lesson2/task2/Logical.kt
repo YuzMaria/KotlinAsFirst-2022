@@ -3,6 +3,9 @@
 package lesson2.task2
 
 import lesson1.task1.sqr
+import kotlin.math.max
+import kotlin.math.min
+import kotlin.math.sqrt
 
 /**
  * Пример
@@ -18,7 +21,13 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Четырехзначное число назовем счастливым, если сумма первых двух ее цифр равна сумме двух последних.
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
-fun isNumberHappy(number: Int): Boolean = TODO()
+fun isNumberHappy(number: Int): Boolean {
+    val x1 = number / 1000
+    val x2 = number / 100 % 10
+    val x3 = number % 100 / 10
+    val x4 = number % 10
+    return x1 + x2 == x3 + x4
+}
 
 /**
  * Простая (2 балла)
@@ -48,7 +57,7 @@ fun daysInMonth(month: Int, year: Int): Int = TODO()
 fun circleInside(
     x1: Double, y1: Double, r1: Double,
     x2: Double, y2: Double, r2: Double
-): Boolean = TODO()
+): Boolean = r2 >= sqrt(sqr(x1-x2) + sqr(y1-y2)) + r1
 
 /**
  * Средняя (3 балла)
@@ -59,4 +68,11 @@ fun circleInside(
  * кирпич 4 х 4 х 4 пройдёт через отверстие 4 х 4.
  * Вернуть true, если кирпич пройдёт
  */
-fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean = TODO()
+fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
+    val maxi = maxOf(a, b, c)
+    val mini = minOf(a, b, c)
+    val midi = (a + b + c) - (maxi + mini)
+    val min2 = min(r, s)
+    val max2 = max(r,s)
+    return mini <= min2 && midi <= max2
+}
