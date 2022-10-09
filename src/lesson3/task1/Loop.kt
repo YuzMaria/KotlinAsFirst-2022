@@ -3,6 +3,7 @@
 package lesson3.task1
 
 import lesson1.task1.sqr
+import kotlin.math.max
 import kotlin.math.sqrt
 
 // Урок 3: циклы
@@ -77,7 +78,7 @@ fun digitNumber(n: Int): Int {
     var count = 0
     var number = n
     if (n == 0) return 1
-    while (number > 0) {
+    while (number != 0) {
         number /= 10
         count += 1
     }
@@ -131,8 +132,8 @@ fun collatzSteps(x: Int): Int = TODO()
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var k = 1
-    while (k > 0) {
+    var k = max(m, n)
+    while (k != 0 ) {
         if ((k % n == 0) && (k % m == 0)) break
         k += 1
     }
