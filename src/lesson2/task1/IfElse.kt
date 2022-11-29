@@ -73,11 +73,12 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
 fun ageDescription(age: Int): String {
     val last = age % 10
     val twolast = age % 100
-    if (twolast in 11..19) return "$age лет"
-    if (last == 1) return "$age год"
-    if (last in 2..4) return "$age года"
-    else return "$age лет"
-
+    return when {
+        twolast in 11..19 -> "$age лет"
+        last == 1 -> "$age год"
+        last in 2..4 -> "$age года"
+        else -> "$age лет"
+    }
 }
 
 /**
@@ -155,6 +156,5 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     val len = min(b, d) - max(a, c)
-    if (len < 0) return -1
-    return len
+    return if (len < 0) -1 else len
 }

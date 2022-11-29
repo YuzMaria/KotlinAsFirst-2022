@@ -177,7 +177,18 @@ fun accumulate(list: MutableList<Int>): MutableList<Int> = TODO()
  * Результат разложения вернуть в виде списка множителей, например 75 -> (3, 5, 5).
  * Множители в списке должны располагаться по возрастанию.
  */
-fun factorize(n: Int): List<Int> = TODO()
+fun factorize(n: Int): List<Int> {
+    val factor = mutableListOf<Int>()
+    var dividend = n
+    var denominator = 2
+    while (dividend > 1) {
+        if (dividend % denominator == 0) {
+            dividend /= denominator
+            factor.add(denominator)
+        } else denominator++
+    }
+    return factor
+}
 
 /**
  * Сложная (4 балла)
@@ -186,7 +197,7 @@ fun factorize(n: Int): List<Int> = TODO()
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
-fun factorizeToString(n: Int): String = TODO()
+fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*")
 
 /**
  * Средняя (3 балла)
@@ -195,7 +206,16 @@ fun factorizeToString(n: Int): String = TODO()
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int> {
+    val number = mutableListOf<Int>()
+    var start = n
+    while (start >= 1) {
+        val remainder = start % base
+        number.add(0, remainder)
+        start /= base
+    }
+    return number
+}
 
 /**
  * Сложная (4 балла)
@@ -208,7 +228,12 @@ fun convert(n: Int, base: Int): List<Int> = TODO()
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, n.toString(base) и подобные), запрещается.
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String = convert(n, base).map {
+    if (it >= 10) {
+        'a' + (it - 10)
+    } else it
+}.joinToString(separator = "")
+
 
 /**
  * Средняя (3 балла)
@@ -250,4 +275,77 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    val topnumber = mutableListOf<String>()
+    val top = n / 1000
+    val bot = n % 1000
+    val botnumber = mutableListOf<String>()
+    val combo = listOf("", "один", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+    val teen = listOf(
+        "десять",
+        "одиннадцать",
+        "двенадцать",
+        "тринадцать",
+        "четырнадцать",
+        "пятнадцать",
+        "шестнадцать",
+        "семнадцать",
+        "восемнадцать",
+        "девятнадцать"
+    )
+    if (top > 99) {
+        when (top) {
+            in 500..999 -> topnumber.add(combo[top / 100] + "сот")
+            in 300..499 -> topnumber.add(combo[top / 100] + "ста")
+            in 200..299 -> topnumber.add(combo[top / 100] + "сти")
+            in 100..199 -> topnumber.add("сто")
+        }
+    }
+    if (bot > 99) {
+        when (bot) {
+            in 500..999 -> botnumber.add(combo[bot / 100] + "сот")
+            in 300..499 -> botnumber.add(combo[bot / 100] + "ста")
+            in 200..299 -> botnumber.add(combo[bot / 100] + "сти")
+            in 100..199 -> botnumber.add("сто")
+        }
+    }
+    if (top > 10) {
+        when (top % 100) {
+            in 10..19 -> topnumber.add(teen[top % 10])
+            in 20..29 -> topnumber.add("двадцать")
+            in 30..39 -> topnumber.add("тридцать")
+            in 40..49 -> topnumber.add("сорок")
+            in 90..99 -> topnumber.add("девяносто")
+            in 50..89 -> topnumber.add(combo[top / 10 % 10] + "десят")
+        }
+    }
+    if (bot > 10) {
+        when (bot % 100) {
+            in 10..19 -> botnumber.add(teen[bot % 10])
+            in 20..29 -> botnumber.add("двадцать")
+            in 30..39 -> botnumber.add(combo[bot / 10 % 10] + "дцать")
+            in 40..49 -> botnumber.add("сорок")
+            in 90..99 -> botnumber.add("девяносто")
+            in 50..89 -> botnumber.add(combo[bot / 10 % 10] + "десят")
+        }
+    }
+    if (top >= 1) {
+        when {
+            top % 100 in 11..19 -> topnumber.add("тысяч")
+            top % 10 == 1 -> topnumber.add("одна тысяча")
+            top % 10 in 2..4 -> topnumber.add(combo[top % 10] + " тысячи")
+            top % 10 == 0 -> topnumber.add("тысяч")
+            else -> topnumber.add(combo[top % 10] + " тысяч")
+        }
+    }
+    if (bot > 0) {
+        when {
+            (bot % 10 == 2) && (bot % 100 != 12) -> botnumber.add("два")
+            bot % 100 !in 11..19 -> botnumber.add(combo[bot % 10])
+        }
+    }
+    val result = topnumber + botnumber
+    return result.joinToString(separator = " ")
+}
+
+
