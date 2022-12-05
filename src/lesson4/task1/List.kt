@@ -310,7 +310,7 @@ fun russian(n: Int): String {
             in 100..199 -> botnumber.add("сто")
         }
     }
-    if (top > 10) {
+    if (top >= 10) {
         when (top % 100) {
             in 10..19 -> topnumber.add(teen[top % 10])
             in 20..29 -> topnumber.add("двадцать")

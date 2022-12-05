@@ -99,7 +99,7 @@ fun dateStrToDigit(str: String): String {
     val month = numbermonths.indexOf(parts[1]) + 1
 
     if (day !in 0..daysInMonth(month, years) || month == 0) return ""
-    return String.format("%02d.%02d.%04d", day, month, years)
+    return String.format("%02d.%02d.%d", day, month, years)
 }
 
 /**
@@ -118,6 +118,7 @@ fun dateDigitToStr(digital: String): String {
     val day = parts[0].toInt()
     val month = parts[1].toInt()
     val years = parts[2].toInt()
+    if (day !in 0..daysInMonth(month, years) || month !in 1..12) return ""
     val numbermonths = listOf(
         "",
         "января",
@@ -134,10 +135,7 @@ fun dateDigitToStr(digital: String): String {
         "декабря"
     )
     val montha = numbermonths[month]
-
-    if (day !in 0..daysInMonth(month, years) || month !in 1..12) return ""
     return "$day $montha $years"
-
 }
 
 /**
