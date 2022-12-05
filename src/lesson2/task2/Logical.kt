@@ -45,7 +45,16 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = TODO()
  * Дан номер месяца (от 1 до 12 включительно) и год (положительный).
  * Вернуть число дней в этом месяце этого года по григорианскому календарю.
  */
-fun daysInMonth(month: Int, year: Int): Int = TODO()
+fun daysInMonth(month: Int, year: Int): Int {
+    if (month == 2) {
+        return if (year % 400 == 0 || year % 100 !=0 && year % 4 == 0) 29 else 28
+    }
+    return when (month) {
+        1, 3, 5, 7, 8, 10, 12 -> 31
+        else -> 30
+    }
+}
+
 
 /**
  * Простая (2 балла)
@@ -57,7 +66,7 @@ fun daysInMonth(month: Int, year: Int): Int = TODO()
 fun circleInside(
     x1: Double, y1: Double, r1: Double,
     x2: Double, y2: Double, r2: Double
-): Boolean = r2 >= sqrt(sqr(x1-x2) + sqr(y1-y2)) + r1
+): Boolean = r2 >= sqrt(sqr(x1 - x2) + sqr(y1 - y2)) + r1
 
 /**
  * Средняя (3 балла)
@@ -73,6 +82,6 @@ fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
     val mini = minOf(a, b, c)
     val midi = (a + b + c) - (maxi + mini)
     val min2 = min(r, s)
-    val max2 = max(r,s)
+    val max2 = max(r, s)
     return mini <= min2 && midi <= max2
 }

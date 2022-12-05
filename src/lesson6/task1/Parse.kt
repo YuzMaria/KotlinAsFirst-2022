@@ -2,6 +2,9 @@
 
 package lesson6.task1
 
+import lesson2.task2.daysInMonth
+
+
 // Урок 6: разбор строк, исключения
 // Максимальное количество баллов = 13
 // Рекомендуемое количество баллов = 11
@@ -74,7 +77,30 @@ fun main() {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val parts = str.split(" ")
+    if (parts.size != 3) return ""
+    val day = parts[0].toInt()
+    val years = parts[2].toInt()
+    val numbermonths = listOf(
+        "января",
+        "февраля",
+        "марта",
+        "апреля",
+        "мая",
+        "июня",
+        "июля",
+        "августа",
+        "сентября",
+        "октября",
+        "ноября",
+        "декабря"
+    )
+    val month = numbermonths.indexOf(parts[1]) + 1
+
+    if (day !in 0..daysInMonth(month, years) || month == 0) return ""
+    return String.format("%02d.%02d.%04d", day, month, years)
+}
 
 /**
  * Средняя (4 балла)
@@ -86,7 +112,33 @@ fun dateStrToDigit(str: String): String = TODO()
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    if (!digital.matches(Regex("""\d\d.\d\d.\d+"""))) return ""
+    val parts = digital.split(".")
+    val day = parts[0].toInt()
+    val month = parts[1].toInt()
+    val years = parts[2].toInt()
+    val numbermonths = listOf(
+        "",
+        "января",
+        "февраля",
+        "марта",
+        "апреля",
+        "мая",
+        "июня",
+        "июля",
+        "августа",
+        "сентября",
+        "октября",
+        "ноября",
+        "декабря"
+    )
+    val montha = numbermonths[month]
+
+    if (day !in 0..daysInMonth(month, years) || month !in 1..12) return ""
+    return "$day $montha $years"
+
+}
 
 /**
  * Средняя (4 балла)
@@ -114,7 +166,18 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    if (jumps.contains(Regex("""[^\d\s-%]"""))) return -1
+    val attempts = jumps.split(" ")
+    val result = mutableListOf<Int>()
+    for (part in attempts) {
+        if (part.contains(Regex("""^\d"""))) {
+            result.add(part.toInt())
+        }
+    }
+    if (result.size == 0) return -1
+    return result.max()
+}
 
 /**
  * Сложная (6 баллов)

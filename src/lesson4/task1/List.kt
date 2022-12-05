@@ -212,10 +212,10 @@ fun convert(n: Int, base: Int): List<Int> {
     if (n == 0) return listOf(0)
     while (start >= 1) {
         val remainder = start % base
-        number.add(0, remainder)
+        number.add(remainder)
         start /= base
     }
-    return number
+    return number.reversed()
 }
 
 /**
