@@ -3,6 +3,7 @@
 package lesson6.task1
 
 import lesson2.task2.daysInMonth
+import java.lang.IllegalArgumentException
 
 
 // Урок 6: разбор строк, исключения
@@ -170,7 +171,7 @@ fun bestLongJump(jumps: String): Int {
     val attempts = jumps.split(" ")
     val result = mutableListOf<Int>()
     for (part in attempts) {
-        if (part.contains(Regex("""^\d"""))) {
+        if (part.contains(Regex("""\d"""))) {
             result.add(part.toInt())
         }
     }
@@ -189,7 +190,11 @@ fun bestLongJump(jumps: String): Int {
  * При нарушении формата входной строки, а также в случае отсутствия удачных попыток,
  * вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Any {
+    if (jumps.contains(Regex("""[^\d\s-%+]"""))) return -1
+    val result = Regex("""(\d)+\s[%-]+""").replace(jumps, "").replace("+", " ").split(" ").filter { it != "" }
+    return result.max().toInt()
+}
 
 /**
  * Сложная (6 баллов)
@@ -200,7 +205,19 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    if (!expression.matches(Regex("""\d+(\s[-+]\s\d+)*"""))) throw IllegalArgumentException()
+    val number = expression.split(" ")
+    var result = number[0].toInt()
+    for (n in 1 until number.size step 2) {
+        if (number[n] == "+") {
+            result += number[n + 1].toInt()
+        } else result -= number[n + 1].toInt()
+    }
+    return result
+
+
+}
 
 /**
  * Сложная (6 баллов)
