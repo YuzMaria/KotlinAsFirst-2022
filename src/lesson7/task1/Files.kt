@@ -163,7 +163,31 @@ fun centerFile(inputName: String, outputName: String) {
  * 8) Если входной файл удовлетворяет требованиям 1-7, то он должен быть в точности идентичен выходному файлу
  */
 fun alignFileByWidth(inputName: String, outputName: String) {
-    TODO()
+    val writer = File(outputName).bufferedWriter()
+    var len = 0
+    File(inputName).forEachLine { line ->
+        if (line.replace(Regex("""\s+"""), " ").trim().length > len) {
+            len = line.replace(Regex("""\s+"""), " ").trim().length
+        }
+    }
+    File(inputName).forEachLine { line ->
+        val onespace = line.replace(Regex("""\s+"""), " ").trim().length
+        var needspace = len - onespace //кол-во добавляемых пробелов
+        //var count = onespace / needspace
+        val words = line.trim().split(Regex("""\s+""")).toMutableList() //все слова, разделение требует пробелов
+        while (needspace > 0 && words.size > 1) { //добавление необходимого количества пробелов
+            for (i in 0 until words.size - 1) { //после каждого слова и по кругу
+                words[i] += " "
+                needspace -= 1
+                when (needspace) {
+                    0 -> break
+                }
+            }
+        }
+        writer.write(words.joinToString(" "))
+        writer.newLine()
+    }
+    writer.close()
 }
 
 /**
