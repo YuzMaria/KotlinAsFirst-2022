@@ -441,4 +441,14 @@ Basic, Ruby, Swift.
 
         File("temp.txt").delete()
     }
+
+    @Test
+    fun myFun() {
+       assertEquals(1.5616666666666668, myFun("input/input.txt","E1-B2"))
+    }
+
+    @Test
+    fun down() {
+        assertEquals(186, down("input/ddown.txt","Май 1..9"))
+    }
 }

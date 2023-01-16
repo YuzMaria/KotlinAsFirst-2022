@@ -293,3 +293,104 @@ fun fromRoman(roman: String): Int = TODO()
  *
  */
 fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> = TODO()
+
+
+/**
+ * В строке text содержатся результаты матчей команд
+ * в следующем виде:
+ *
+ * "Зенит 0:1 Спартак; Зенит 1:0 ЦСКА; Барнаулец 0:2 Зенит;
+ * Подмосквич 4:4 Барнаулец"
+ *
+ * Результаты отделены друг от друга точкой с запятой и пробелом,
+ * играющие команды отделены от счёта пробелом. Результат одной
+ * игры задается в формате:
+ * *название команды* *число*:*число* *название команды*
+ * Т.е. название команды отделено от количества ее голов пробелом,
+ * результаты двух команд разделены двоеточиями. Названия команд
+ * состоят только из букв (кириллица/латиница) и чисел; без пробелов,
+ * дефисов, двоеточий и т.д.
+ *
+ * Необходимо подсчитать число очков по следующим правилам:
+ *  - за победу даётся 3 очка
+ *  - за ничью даётся одно очко
+ *  - за проигрыш даётся 0 очков.
+ *
+ * На вход также подается список строк teams, который содержит
+ * названия интересующих нас футбольных команд. Следует вернуть список
+ * команд teams, отсортированных по количеству набранных очков (от
+ * большего к меньшему). Если у двух команд одинаковое количество
+ * очков --- можно располагать
+ * их в любом порядке. Если команда ни разу не играла (т.е. ее имя ни
+ * разу не встречалось в результатах игр text), считать что у нее 0
+ * очков.
+ * При нарушении формата следует выбросить IllegalArgumentException.
+ *
+ * Имя функции и тип результата функции предложить самостоятельно;
+ * в задании указан тип Collection<Any>, то есть коллекция объектов
+ * произвольного типа, можно (и нужно) изменить как вид коллекции,
+ * так и тип её элементов.
+ *
+ * Кроме функции, следует написать тесты,
+ * подтверждающие её работоспособность.
+ */
+//fun football(text: String, teams: List<String>): List<String> {
+//    val split = text.split("; ")
+//    val teamsfirst = mutableMapOf<String, MutableList<Int>>()
+//    val teamssecond = mutableMapOf<String, MutableList<Int>>()
+//    val result = mutableMapOf<String, Int>()
+//    for (i in split) {
+//        val teamgoals1 = mutableMapOf<String, Int>()
+//        val teamgoals2 = mutableMapOf<String, Int>()
+//        val firstteam = i.split(":")[0].split(" ")[0]
+//        val firstval = i.split(":")[0].split(" ")[1].toInt()
+//        val seconteam = i.split(":")[1].split(" ")[1]
+//        val secontval = i.split(":")[1].split(" ")[0].toInt()
+//        result[firstteam] = firstval
+//
+//
+//        for ((key1, value1) in teamgoals1) {
+//            for ((key2, value2) in teamgoals2) {
+//                val result = mutableMapOf<String, Int>()
+//                if (value1 == value2) {
+//                    result[key1] == 1
+//                    result[key2] == 1
+//                }
+//                if (value1 > value2) {
+//                    result[key1] == 3
+//                    result[key2] == 0
+//                }
+//                if (value1 < value2) {
+//                    result[key1] == 0
+//                    result[key2] == 3
+//                }
+//                for ((key, values) in result) {
+//                    if ()
+//
+//            }
+//
+//            }
+//        }
+//
+//    }
+//
+//
+//
+//val res = mutableListOf<String>()
+//val y = result.toList().sortedBy { (_, value) -> value }.toMap()
+//for ((key, value ) in result) {
+//    res.add(key)
+//}
+//return res
+//}
+
+
+/*val splitNext = i.split(":")
+       //for (i in splitNext) {
+          // val splitsecond = i.split(" ")
+           val firstteam = i[0].split(" ")[0]
+           val firstval = splitsecond[1].toInt()
+           val seconteam = splitsecond[1]
+           val secontval = splitsecond[0].toInt()
+           teamsfirst[firstteam] = firstval
+           teamssecond[seconteam] = secontval*/

@@ -2,6 +2,9 @@
 
 package lesson5.task1
 
+import java.lang.IllegalArgumentException
+import kotlin.math.min
+
 // Урок 5: ассоциативные массивы и множества
 // Максимальное количество баллов = 14
 // Рекомендуемое количество баллов = 9
@@ -360,3 +363,28 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
     }
     return result
 }
+
+
+/*fun people(
+    places: MutableList<MutableList<Boolean>>,
+    requests: Map<String, Pair<Int, Int>>
+): MutableMap<String,List<Int>> {
+
+    val allplace = mutableListOf<Boolean>()
+    val name = requests.map { it.key }
+    val row = requests.map { it.value.first }
+    val place = requests.map { it.value.second }
+    for (i in 0..places.size)
+        if (i == row[i]) {
+            for (k in places) {
+                for (s in places.indices)
+                if (k[s] == true) {
+                    place[i] -= 1
+                    allplace.add(true)
+                } else allplace.add(false)
+            }
+        }
+    return allplace
+}*/
+
+

@@ -150,4 +150,17 @@ class Tests {
         assertThrows(IllegalArgumentException::class.java) { computeDeviceCells(10, "+>+>[+>", 3) }
         assertThrows(IllegalStateException::class.java) { computeDeviceCells(20, ">>>>>>>>>>>>>", 12) }
     }
+
+//    @Test
+//    fun football() {
+//        val list = "Зенит 0:1 Спартак; Зенит 1:0 ЦСКА; Барнаулец 0:2 Зенит; Подмосквич 4:4 Барнаулец"
+//        assertEquals(
+//            listOf("Зенит", "Спартак", "Барнаулец", "Подмосквич", "ЦСКА"),
+//            football(list, listOf("Зенит", "Спартак", "Барнаулец", "Подмосквич", "ЦСКА"))
+//        )
+//    }
+//
+//
 }
+
+

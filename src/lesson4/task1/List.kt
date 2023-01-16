@@ -3,6 +3,8 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import java.lang.IllegalArgumentException
+import kotlin.math.min
 import kotlin.math.sqrt
 
 // Урок 4: списки
@@ -349,4 +351,245 @@ fun russian(n: Int): String {
     return result.joinToString(separator = " ")
 }
 
+/*
 
+fun th(
+    places: MutableList<MutableList<Boolean>>,
+    requests: Map<String, Pair<Int, Int>>
+): MutableMap<String, List<Int>> {
+    val result = mutableMapOf<String, List<Int>>()
+    for ((key, value) in requests) {
+        val row = value.first
+        var seats = value.second
+        if (places[row].filter { !it }.size < seats) throw IllegalArgumentException()
+        val choose = mutableListOf<Int>()
+        for (s in places[row].indices) {
+            if (!places[row][s]) {
+                choose.add(s)
+                places[row][s] = true
+                seats -= 1
+                if (seats == 0)
+                    break
+            }
+        }
+        result[key] = choose
+    }
+    println(places)
+    return result
+
+
+}
+
+fun an(movers: List<String>, pets: List<String>, limit: Int): Set<String> {
+    val result = mutableSetOf<String>()
+    var sum = limit
+    loop@ for (move in movers) {
+        if (!Regex("""[a-zA-z]+: [а-я]+ - \d+(, [а-яё]+ - \d+)*""").matches(move)) throw IllegalArgumentException()
+        val x = move.split(": ")
+        val name = x[0]
+        val y = x[1].split(", ")
+        val petcost = mutableMapOf<String, Int>()
+        for (i in y) {
+            val petInfo = i.split(" - ")
+            petcost[petInfo[0]] = petInfo[1].toInt()
+        }
+        for (pet in pets) {
+            if (!petcost.contains(pet)) continue@loop
+            sum -= petcost[pet]!!
+        }
+        if (sum >= 0) {
+            result.add((name))
+        }
+    }
+    return result
+}
+
+
+fun nl2(taxes: String, money: Int): Int {
+    if (!taxes.matches(Regex("""(\d+ у.е. = \d+%; )*else = \d+%"""))) throw IllegalArgumentException()
+    val res = taxes.split("; ")
+    val mon = mutableListOf<Int>()
+    var result = 0
+    var howmuch = money
+    val percent = mutableListOf<Int>()
+    for (i in res) {
+        val sep = i.split(" = ")
+        if (sep[0] == "else") {
+            mon.add(money)
+            percent.add(sep[1].replace("%", "").toInt())
+        } else {
+            mon.add(sep[0].split(" ")[0].toInt())
+            percent.add(sep[1].replace("%", "").toInt())
+        }
+    }
+    // result = (percent[0] / 100.0 * min(mon[0], howmuch)).toInt()
+    howmuch -= min(mon[0], howmuch)
+    for (k in 1 until mon.size - 1) {
+        if (howmuch == 0) break
+        result += min(mon[k] - mon[k - 1], howmuch) * percent[k] / 100
+        howmuch -= min(mon[k] - mon[k - 1], howmuch)
+    }
+    */
+/*   for (k in mon.indices) {
+           result += (mon[k + 1] - mon[k]) * percent[k] / 100
+           howmuch -= (mon[k + 1] - mon[k])
+           if (howmuch == mon[0]) break
+       }*//*
+
+
+    return result
+}
+
+fun nl(table: Map<String, Int>, taxes: String): Map<String, Int> {
+
+
+    val result = mutableMapOf<String, Int>()
+    val x = taxes.split("\n")
+    for (i in x) {
+        if (!i.matches(Regex("""[а-яА-я ]+[а-яА-я ]+- [а-яА-я ]+- \d+"""))) throw IllegalArgumentException()
+        val spli = i.split(" - ")
+        val name = spli[0]
+        val typ = spli[1]
+        val sum = spli.last().toInt()
+        for ((key, values) in table) {
+            if (typ.contains(key)) {
+                result[name] = sum * values / 100
+                break
+            } else result[name] = sum * 13 / 100
+        }
+
+    }
+    val y = result.toList().sortedBy { (_, value) -> value }.toMap()
+    return y
+}
+
+
+fun zapr(carPetrols: Map<String, String>, gasStations: String): Map<String, String> {
+    val x = gasStations.split("\n")
+    val result = mutableMapOf<String, String>()
+    val para = mutableMapOf<String, MutableMap<String, Double>>()
+    for (i in x) {
+        val petrol = mutableMapOf<String, Double>()
+        val spl = i.split(": ")
+        val name = spl[0]
+        val y = spl[1].split("; ")
+        for (k in y) {
+            val z = k.split(" - ")
+            val typ = z[0]
+            val cost = z[1].removeSuffix(";").toDouble()
+            petrol[typ] = cost
+
+        }
+        para[name] = petrol
+    }
+    for ((key, value) in carPetrols) {
+        var max = 1000.00
+        for ((name, all) in para) {
+            if (value in all.keys && all[value]!! < max) {
+                result[key] = name
+                max = all[value]!!
+            }
+        }
+
+
+    }
+    return result
+
+}*/
+//Зрители в зале
+/**
+ * На вход подаётся изменяемый список places, содержащий информацию
+ * о состоянии мест в зале в следующем виде: i-ый элемент списка
+ * описывает состояние мест в i-ом ряду в зале.
+ * Состояние мест в ряду также представлено списком, содержащим true,
+ * если место занято, и false если свободно.
+ *
+ * Например:
+ * [[true,false,false,false,true,false],[true,false,true,false]]
+ *
+ * Также, на вход подаётся ассоциативный массив requests, содержащий
+ * информацию о запросах на места. Ключ это идентификатор зрителя,
+ * а значение это пара из номера ряда и количества заказанных мест.
+ *
+ * Например:
+ * {"Вася" = (0, 2), "Петя" = (1, 1)}
+ * В примере Вася хочет 2 места в ряду 0, а Петя одно место в ряду 1.
+ *
+ * Необходимо каждому зрителю найти необходимое количество мест в зале
+ * и зарезервировать их. Места могут располагаться НЕ рядом.
+ * Требуется вернуть для каждого зрителя список зарезервированных
+ * для него мест, а также внести изменения в переданный
+ * на вход список, содержащий информацию о состоянии мест в зале.
+ *
+ * Если какому-либо из зрителей невозможно выделить необходимое
+ * количество мест требуется выбросить IllegalStateException.
+ *
+ * Для данных из примера результат работы может быть следующим:
+ * Зарезервированные места:
+ * {"Вася" = [1, 5], "Петя" = [3]}
+ * Изменённый список с информацией о местах:
+ * [[true,true,false,false,true,true],[true,false,true,true]]
+ *
+ * Имя функции и тип результата функции предложить самостоятельно;
+ * в задании указан тип Collection<Any>, то есть коллекция объектов
+ * произвольного типа, можно (и нужно) изменить как вид коллекции,
+ * так и тип её элементов.
+ * Кроме функции, следует написать тесты,
+ * подтверждающие её работоспособность.
+ *
+ * fun myFun(places: MutableList<MutableList<Boolean>>,
+ *    requests: Map<String, Pair<Int, Int>>): Collection<Any> = TODO()
+ */
+val places =
+    mutableListOf(mutableListOf(true, false, false, false, true, false), mutableListOf(true, false, true, false))
+val requests = mapOf("Вася" to Pair(0, 2), "Петя" to Pair(1, -1))
+
+fun main() {
+    //println(places[0].filter { !it }.size)
+    //println(switcher(mutableListOf(true, false, false, false, true, false), 2))
+    println(requests)
+    println(places)
+    println(theater(places, requests))
+    println(places)
+}
+
+/*fun switcher(row: MutableList<Boolean>, n: Int): MutableList<Boolean> {
+    var c = 0
+    for (i in row.indices) {
+        if (c > n) break
+        if (!row[i]) row[i] = true
+        c++
+    }
+    return row
+}*/
+
+fun theater(
+    places: MutableList<MutableList<Boolean>>,
+    requests: Map<String, Pair<Int, Int>>
+): MutableMap<String, List<Int>> {
+
+    val ansMap = mutableMapOf<String, List<Int>>()
+    for ((key, value) in requests) {
+        val row = value.first
+        val seats = value.second
+        //if (seats < 0 || places[row].filter { !it }.size < seats) throw IllegalStateException()
+        if (places[row].filter { !it }.size < seats) throw IllegalStateException()
+        val preservedSeats = mutableListOf<Int>()
+        //Заносим в список и
+        // заменяем false N раз в places[row] на true
+        var c = 0
+        for (i in places[row].indices) {
+            if (c >= seats) break // алтренатива if (c == seats) break
+            if (!places[row][i]) {
+                preservedSeats.add(i) // заносим в список
+                places[row][i] = true
+                c++// меняем значение
+            }
+
+        }
+        ansMap[key] = preservedSeats
+        // В случае того, что Банда Мышей зарезервирует не один ряд, а два? инпут вида "X to Pair(i,n), X to Pair(j,m)?
+        // Тогда
+    }
+    return ansMap
+}

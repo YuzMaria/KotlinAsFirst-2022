@@ -3,6 +3,7 @@ package lesson4.task1
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
+import java.lang.IllegalArgumentException
 
 class Tests {
     @Test
@@ -238,5 +239,127 @@ class Tests {
         assertEquals("двести тысяч два", russian(200002))
         assertEquals("девятьсот тысяч", russian(900000))
         assertEquals("двенадцать", russian(12))
+    }
+/*
+    @Test
+    fun th() {
+        val one = mutableListOf<Boolean>(true, false, false, false, true, false)
+        val two = mutableListOf<Boolean>(true, false, true, false)
+        val request1 = mapOf("Вася" to Pair(0, 2), "Петя" to Pair(1, 1))
+        assertEquals(mapOf("Вася" to listOf(1, 2), "Петя" to listOf(1)),
+            lesson5.task1.th(mutableListOf(one, two), request1)
+        )
+
+    }
+
+    @Test
+    fun an() {
+        val movers = listOf<String>(
+            "SuperCats: кот - 100000",
+            "FastAndCheap: кот - 25000, собака - 30000, шиншилла - 5000",
+            "Lux: кот - 1000000, собака - 1000000, крыса - 1000000, корова - 1000000, бегемот - 1000000"
+        )
+        assertEquals(setOf("Lux", "FastAndCheap"), lesson5.task1.an(movers, listOf("кот", "собака"), 20000000))
+    }
+
+
+    @Test
+    fun nl2() {
+        *//*val taxes = "20000 у.е. = 0%; 40000 у.е. = 5%; 60000 у.е. = 10%; else = 25%"
+        assertEquals(13000, nl2(taxes, 100000))*//*
+        val taxe = "20000 у.е. = 0%; 40000 у.е. = 5%; 60000 у.е. = 10%; else = 25%"
+        assertEquals(2000, lesson5.task1.nl2(taxe, 50000))
+    }
+
+    @Test
+    fun nl() {
+        val taxes =
+            "ООО Горняк - Горнодобывающая промышленость - 100000\nВбербанк - Банковские операции - 190000\nПолитек Ведра - Образование - 9000000"
+        assertEquals(
+            mapOf("ООО Горняк" to 12000, "Вбербанк" to 17100, "Политек Ведра" to 1170000),
+            lesson5.task1.nl(
+                mapOf("Производство напитков" to 4, "Горнодобывающая промышленость" to 12, "Банковские операции" to 9),
+                taxes
+            )
+        )
+        assertThrows(IllegalArgumentException::class.java) {
+            lesson5.task1.nl(
+                mapOf("Производство напитков" to 4, "Горнодобывающая промышленость" to 12, "Банковские операции" to 9),
+                "GGGGGG"
+            )
+        }
+
+    }
+
+    @Test
+    fun zapr() {
+        val car = mapOf(
+            "Lada Vesta" to "бензин 98",
+            "Lada Niva" to "дизель",
+            "BMW M5" to "бензин 95",
+            "Копейка" to "бензин 88",
+            "Трактор" to "солярка"
+        )
+        val gas =
+            "Лукойл: бензин 95 - 44.66; дизель - 60.76; солярка - 10;\nГазпром: бензин 98 - 50.00; бензин 88 - 34.30;\nShell: бензин 66 - 23.00; дизель - 55.50;"
+        assertEquals(
+            mapOf(
+                "Lada Vesta" to "Газпром",
+                "Lada Niva" to "Shell",
+                "BMW M5" to "Лукойл",
+                "Копейка" to "Газпром",
+                "Трактор" to "Лукойл"
+            ), lesson5.task1.zapr(car, gas)
+        )
+    }*/
+
+    @Test
+
+    fun theater() {
+
+        val places1 =
+            mutableListOf(
+                mutableListOf(true, false, false, false, true, false),
+                mutableListOf(true, false, true, false)
+            )
+        val requests1 = mapOf("Вася" to Pair(0, 2), "Петя" to Pair(1, 1))
+        assertEquals(mapOf("Вася" to listOf(1, 2), "Петя" to listOf(1)), theater(places1, requests1))
+
+        val places2 =
+            mutableListOf(
+                mutableListOf(true, true, true, true, false, false),
+                mutableListOf(true, true, true, false)
+            )
+        val requests2 = mapOf("Вася" to Pair(0, 2), "Петя" to Pair(1, 1))
+        assertEquals(mapOf("Вася" to listOf(4, 5), "Петя" to listOf(3)), theater(places2, requests2))
+
+        val places3 =
+            mutableListOf(
+                mutableListOf(true, false, true, false, false, false),
+                mutableListOf(true, true, true, false),
+                mutableListOf(false, false, false, false)
+            )
+        val requests3 = mapOf("Вася" to Pair(0, 2), "Петя" to Pair(1, 1), "Банда Мышей" to Pair(2, 10))
+        //assertEquals(mapOf("Вася" to listOf(4, 5), "Петя" to listOf(3)), theater(places3, requests3))
+        assertThrows(IllegalStateException::class.java) {
+            theater(places3, requests3)
+        }
+        val places4 =
+            mutableListOf(
+                mutableListOf(false, false, false, false, false, false, false),
+                mutableListOf(false, false, false, false, false, false, false),
+                mutableListOf(false, false, false, false, false, false, false)
+            )
+        val requests4 = mapOf("Вася" to Pair(0, 6), "Петя" to Pair(0, 1), "Банда Мышей" to Pair(2, 7))
+        assertEquals(
+            mapOf(
+                "Вася" to listOf(0, 1, 2, 3, 4, 5),
+                "Петя" to listOf(6),
+                "Банда Мышей" to listOf(0, 1, 2, 3, 4, 5, 6)
+            ),
+            theater(places4, requests4)
+        )
+
+
     }
 }
